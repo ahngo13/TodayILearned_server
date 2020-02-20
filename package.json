@@ -1,0 +1,23 @@
+{
+  "name": "todayilearned_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahngo13/TodayILearned_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahngo13/TodayILearned_server/issues"
+  },
+  "homepage": "https://github.com/ahngo13/TodayILearned_server#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
