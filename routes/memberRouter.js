@@ -29,7 +29,8 @@ router.post("/login", async (req, res) => {
     const user = await User.find(obj);
     console.log(user[0]);
     if (user[0]) {
-      res.json({ message: "로그인 되었습니다!", email: req.body.email });
+      console.log(req.body._id);
+      res.json({ message: "로그인 되었습니다!", _id: user[0]._id });
     } else {
       res.json({ message: false });
     }

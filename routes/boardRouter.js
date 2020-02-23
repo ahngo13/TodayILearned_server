@@ -2,16 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Board = require("../schemas/board");
 
-//회원가입
-router.post("/join", (req, res) => {
-  res.json({ message: true });
-});
-
-//로그인
-router.post("/login", (req, res) => {
-  res.json({ message: true });
-});
-
 router.post("/delete", async (req, res) => {
   try {
     const result = await User.remove({
@@ -39,21 +29,28 @@ router.post("/update", async (req, res) => {
   }
 });
 
-router.post("/add", async (req, res) => {
+router.post("/write", async (req, res) => {
   try {
-    const user = new User(req.body);
-    const result = await user.save();
-    res.json({ message: true });
+    const obj = {
+      writer: req.body._id,
+      title: req.body.title,
+      content: req.body.content
+    };
+    console.log(obj);
+    const board = new Board(obj);
+    await board.save();
+    res.json({ message: "게시글이 업로드 되었습니다." });
   } catch (err) {
     console.log(err);
     res.json({ message: false });
   }
 });
 
-router.post("/getAllMember", async (req, res) => {
+router.post("/getBoardList", async (req, res) => {
   try {
-    const user = await User.find({});
-    res.json({ message: user });
+    const _id = req.body._id;
+    const board = await Board.find({writer:_id});
+    res.json({ list: board });
   } catch (err) {
     console.log(err);
     res.json({ message: false });
