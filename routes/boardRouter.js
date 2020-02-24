@@ -4,7 +4,7 @@ const Board = require("../schemas/board");
 
 router.post("/delete", async (req, res) => {
   try {
-    const result = await User.remove({
+    await Board.remove({
       _id: req.body._id
     });
     res.json({ message: true });
@@ -49,7 +49,7 @@ router.post("/write", async (req, res) => {
 router.post("/getBoardList", async (req, res) => {
   try {
     const _id = req.body._id;
-    const board = await Board.find({writer:_id});
+    const board = await Board.find({ writer: _id });
     res.json({ list: board });
   } catch (err) {
     console.log(err);
@@ -57,10 +57,10 @@ router.post("/getBoardList", async (req, res) => {
   }
 });
 
-router.post("/getOne", async (req, res) => {
+router.post("/detail", async (req, res) => {
   try {
     const _id = req.body._id;
-    const board = await Board.find({_id});
+    const board = await Board.find({ _id });
     res.json({ board });
   } catch (err) {
     console.log(err);
