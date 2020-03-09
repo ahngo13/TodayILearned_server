@@ -5,14 +5,27 @@ const User = require("../schemas/user");
 //회원가입
 router.post("/join", async (req, res) => {
   try {
-    const obj = {
-      email: req.body.email,
-      name: req.body.name,
-      password: req.body.password
-    };
-    const user = new User(obj);
-    await user.save();
-    res.json({ message: "회원가입 되었습니다!" });
+    let obj = { email: req.body.email };
+
+    let user = await User.find(obj);
+    console.log(user[0]);
+
+    if (user[0]) {
+      res.json({
+        message: "이메일이 중복되었습니다. 새로운 이메일을 입력해주세요.",
+        dupYn: "1"
+      });
+    } else {
+      obj = {
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password
+      };
+
+      user = new User(obj);
+      await user.save();
+      res.json({ message: "회원가입 되었습니다!", dupYn: "0" });
+    }
   } catch (err) {
     console.log(err);
     res.json({ message: false });
