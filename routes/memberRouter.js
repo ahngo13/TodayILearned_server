@@ -89,13 +89,14 @@ router.post("/login", async (req, res) => {
                 console.log(user2);
                 if (user2) {
                   // 있으면 로그인 처리
-                  console.log(req.body._id);
+                  // console.log(req.body._id);
                   await User.updateOne(
                     {
                       email: req.body.email
                     },
                     { $set: { loginCnt: 0 } }
                   );
+                  req.session.email = user.email;
                   res.json({ message: "로그인 되었습니다!", _id: user2._id });
                 } else {
                   //없으면 로그인 실패횟수 추가
