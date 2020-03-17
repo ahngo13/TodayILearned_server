@@ -18,6 +18,9 @@ const boardSchema = new Schema({
     type: String,
     required: true
   },
+  imgPath: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now

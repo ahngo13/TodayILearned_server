@@ -65,7 +65,6 @@ router.post("/login", async (req, res) => {
         console.log(user);
         if (user) {
           //아이디가 존재할 경우 이메일과 패스워드가 일치하는 회원이 있는지 확인
-
           console.log(req.body.password);
           console.log(user.salt);
           crypto.pbkdf2(
@@ -97,7 +96,11 @@ router.post("/login", async (req, res) => {
                     { $set: { loginCnt: 0 } }
                   );
                   req.session.email = user.email;
-                  res.json({ message: "로그인 되었습니다!", _id: user2._id });
+                  res.json({
+                    message: "로그인 되었습니다!",
+                    _id: user2._id,
+                    email: user2.email
+                  });
                 } else {
                   //없으면 로그인 실패횟수 추가
                   if (user.loginCnt > 4) {
