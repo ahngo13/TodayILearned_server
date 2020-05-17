@@ -1,23 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
 const Board = require("../schemas/board");
-
-let storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-    callback(null, "public/upload/");
-  },
-  filename: function(req, file, callback) {
-    let extension = path.extname(file.originalname);
-    let basename = path.basename(file.originalname, extension);
-    callback(null, Date.now() + extension);
-  }
-});
-
-const upload = multer({
-  dest: "public/upload/",
-  storage: storage
-});
 
 router.post("/delete", async (req, res) => {
   try {
@@ -37,7 +20,6 @@ router.post("/update", async (req, res) => {
       { _id: req.body._id },
       {
         $set: {
-          writer: req.body.writer,
           title: req.body.title,
           content: req.body.content
         }
@@ -50,26 +32,15 @@ router.post("/update", async (req, res) => {
   }
 });
 
-router.post("/write", upload.single("imgFile"), async (req, res) => {
+router.post("/write", async (req, res) => {
   try {
-    const file = req.file;
-    console.log(file);
     let obj;
 
-    if (file == undefined) {
-      obj = {
-        writer: req.body._id,
-        title: req.body.title,
-        content: req.body.content
-      };
-    } else {
-      obj = {
-        writer: req.body._id,
-        title: req.body.title,
-        content: req.body.content,
-        imgPath: file.filename
-      };
-    }
+    obj = {
+      writer: req.body._id,
+      title: req.body.title,
+      content: req.body.content
+    };
 
     const board = new Board(obj);
     await board.save();
